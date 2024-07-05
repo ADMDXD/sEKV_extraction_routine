@@ -9,4 +9,10 @@ You can find two folders:
 
 If you manage to install the function and run the POC file you will get some beautiful plots like these ones:
 
-![alt text](https://github.com/ADMDXD/sEKV_extraction_routine/blob/[branch]/image.jpg?raw=true)
+![alt text](https://github.com/ADMDXD/sEKV_extraction_routine/Plots/extraction_step01012.jpg?raw=true)
+
+![alt text](https://github.com/ADMDXD/sEKV_extraction_routine/Plots/extraction_step03.jpg?raw=true)
+
+![alt text](https://github.com/ADMDXD/sEKV_extraction_routine/Plots/extraction_step04.jpg?raw=true)
+
+![alt text](https://github.com/ADMDXD/sEKV_extraction_routine/Plots/extraction_step05.jpg?raw=true)
