@@ -10,7 +10,7 @@ You can find two folders:
 If you manage to install the function and run the POC file, you will get some beautiful plots like these ones:
 
 
-![alt text](https://github.com/ADMDXD/sEKV_extraction_routine/Plots/[main]/extraction_step0102.jpg?raw=true)
+![alt text](https://github.com/ADMDXD/sEKV_extraction_routine/main/Plots/extraction_step0102.jpg?raw=true)
 
 ![alt text](https://github.com/ADMDXD/sEKV_extraction_routine/Plots/extraction_step03.jpg?raw=true)
 
