@@ -8,14 +8,5 @@ You can find two folders:
   - **Data:** is data belonging to the irradiation tests presented on my thesis. From this file, the code will extract IDVG characteristics of an nMOS transistor (wide and short)
 
 If you manage to install the function and run the POC file, you will get some beautiful plots like these ones:
-Plots/extraction_step0102.jpg
 
-![alt text]([https://github.com/](https://raw.githubusercontent.com/ADMDXD/sEKV_extraction_routine/main/Plots/extraction_step0102.jpg?raw=true)
-
-![ezcv logo](https://raw.githubusercontent.com/ADMDXD/sEKV_extraction_routine/main/Plots/extraction_step0102.jpg)
-
-![alt text](https://github.com/ADMDXD/sEKV_extraction_routine/Plots/extraction_step03.jpg?raw=true)
-
-![alt text](https://github.com/ADMDXD/sEKV_extraction_routine/Plots/extraction_step04.jpg?raw=true)
-
-![alt text](https://github.com/ADMDXD/sEKV_extraction_routine/Plots/extraction_step05.jpg?raw=true)
+https://github.com/ADMDXD/sEKV_extraction_routine/blob/main/Plots/extraction_step0102.jpg
