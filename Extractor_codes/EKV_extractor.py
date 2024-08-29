@@ -174,36 +174,30 @@ def EKV_extractor(IDVG, VG, VSB, IDVD_meas, VD_meas, plots, echo):
         Gspec=ispec/0.026
         
         f1=interp1d(VG_meas, IDVG_meas, fill_value="extrapolate")
-        f2=interp1d(VG_meas, np.gradient(IDVG_meas, VG_meas), fill_value="extrapolate")
-        
-        VG=[0,0.6,1.2]
+
+        VG=np.linspace(0,1.2,np.size(IDs,1)-0)
         GDS=np.empty(np.size(VG))
         Gm = np.empty(np.size(VG))
-        gm=np.empty(np.size(VG))
         gds=np.empty(np.size(VG))
         intercept=np.empty(np.size(VG))
         IC_val=np.empty(np.size(VG))
         ID_val=np.empty(np.size(VG))
-        IDs=IDVD_meas
-        VDs=VD_meas
         
         for vg in range(np.size(VG)):
-            IDVD_meas=IDs[:,vg]
+            # ID_measVD=data[:,vg]
+            # VD_meas=data[:,0]
+            ID_measVD=IDs[:,vg]
             VD_meas=VDs
-            did=np.gradient(IDVD_meas,VD_meas) 
-            # gradient=np.gradient(IDVD_meas,VD_meas)
-            count, interval = np.histogram(did[~np.isnan(did)], bins='auto')
-            max_c = int(np.where(count == max(count))[0][0])
-            low_b, up_b = interval[max_c:max_c+2]
-            loc = np.where((low_b <= did) & (did <= up_b))
-            GDS[vg], intercept[vg], _, _, _ = linregress(VD_meas[loc], IDVD_meas[loc])
-            Gm[vg] = f2(np.round(VG[vg],2))
-            gm[vg] = Gm[vg]/Gspec
-            # index = np.argmin(np.abs(gradient))
+            gradient=np.gradient(ID_measVD,VD_meas)
+            index = np.argmin(np.abs(gradient))
+            GDS[vg]=gradient[index]
+            ID_index=ID_measVD[index]
+            VD_index=VD_meas[index]
+            intercept[vg] = GDS[vg]*VD_index - ID_index
             gds[vg]=GDS[vg]/Gspec
             ID_val[vg]=f1(np.round(VG[vg],2))
             IC_val[vg]=ID_val[vg]/ispec
-    
+          
       #%%Plots
      
     if plots == 1:
