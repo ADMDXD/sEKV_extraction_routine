@@ -499,7 +499,6 @@ echo=1
 Gspec=ispec/0.026
 
 f1=interp1d(VG_meas, ID_meas, fill_value="extrapolate")
-f2=interp1d(VG_meas, gm_over_id*ID_meas, fill_value="extrapolate")
 
 # path = mainpath + r'\Results\WF13\TTS1\Chip05-100C-300Mrad\Left_Array\Irradiation\Irradiation_TJ65WF13TTS1LC00520210831_step' + str(0) + '.txt'
 # data, lines = extract_data(path, transistor, section, quantity,1)
@@ -517,19 +516,12 @@ for vg in range(np.size(VG)):
     # VD_meas=data[:,0]
     ID_measVD=IDs[:,vg]
     VD_meas=VDs
-    did=np.gradient(ID_measVD,VD_meas) 
-    # gradient=np.gradient(ID_measVD,VD_meas)
-    count, interval = np.histogram(did[~np.isnan(did)], bins=200)
-    max_c = int(np.where(count == max(count))[0][0])
-    low_b, up_b = interval[max_c:max_c+2]
-    loc = np.where((low_b <= did) & (did <= up_b))
-    GDS[vg], intercept[vg], _, _, _ = linregress(VD_meas[loc], ID_measVD[loc])
-    Gm[vg] = f2(VG_meas[vg])
-    # index = np.argmin(np.abs(gradient))
-    # GDS[vg]=gradient[index]
-    # ID_index=ID_measVD[index]
-    # VD_index=VD_meas[index]
-    # intercept[vg] = GDS1[vg]*VD_index - ID_index
+    gradient=np.gradient(ID_measVD,VD_meas)
+    index = np.argmin(np.abs(gradient))
+    GDS[vg]=gradient[index]
+    ID_index=ID_measVD[index]
+    VD_index=VD_meas[index]
+    intercept[vg] = GDS[vg]*VD_index - ID_index
     gds[vg]=GDS[vg]/Gspec
     ID_val[vg]=f1(np.round(VG[vg],2))
     IC_val[vg]=ID_val[vg]/ispec
@@ -551,29 +543,14 @@ for vd in range(9,np.size(VG),2):
     ax.plot(VD_meas,y, '-', color='k', linewidth=2, 
                   markerfacecolor="None", markeredgewidth=1,
                   markersize=5, markevery=2)
-# ax.axhline(y=golden_ratio, linestyle='--', color='k', marker='None', linewidth = 1, label = label)
-# ax.axvline(x=ispec0, linestyle='--', color='k', marker='None', linewidth = 1)
-# ax.set_yscale('log')
-# ax.set_xscale('log')
 
 
 ax.set_ylabel(r'$I_\text{D} [\text{A}]$', fontsize = 20)
 ax.set_xlabel(r'$V_\text{D} [\text{V}]$', fontsize = 20)
-# ax.text(ID_meas[21], gmUTid[50], r'$\text{I}_\text{spec}\,=\,$'+str(np.round(ispec0*1e6,2))+r'$\mu A$',
-#         verticalalignment='top', horizontalalignment='left', fontsize=15)
-# ax.text(ID_meas[5], gmUTid[22], r'$\frac{\text{g}_\text{m} \text{n} \text{U}_\text{T}}{\text{I}_\text{D}}\,=\,$'+str(np.round(golden_ratio,3)),
-#         verticalalignment='top', horizontalalignment='left', fontsize=15)
 
-
-# ax.legend(bbox_to_anchor = (1, 0.5), loc = 'center left', fontsize=12)
-# ax.legend(loc = 'best', fontsize=12)
-
-# ax.set_xlim([1e-3, 1e3])
-# ax.set_xlim([min(VD_meas),max(VD_meas)])
 
 ax.grid(True, which="both", ls="--", color='0.9')
-# ax.set_yticklabels([])
-# ax.set_xticklabels([])
+
 
 plt.legend(['Measured', r'Calculated $\text{G}_{ds}$'],loc = 'best', fontsize=12)
 
@@ -585,48 +562,3 @@ plt.tight_layout()
 fig.savefig(mainpath+r'\EKVmodelParameters\plots\extraction_step05.jpg')
 fig.savefig(mainpath+r'\EKVmodelParameters\plots\extraction_step05.pdf', format="pdf")
 
-#%%
-
-
-# od=0.012
-# lambda_d=lambda_c
-#For the optimization we calculate the square differences between the measured VG and the VG from the EKV
-#We let a genetic algorithim from optimize toolbox to perform the optimization
-
-#This is the function to obtain the VG as described by the EKV model
-# def gds_f(ID, lambda_d):
-#     ic=ID/ispec
-#     numerator = ((ic * lambda_d + 1.0) ** 2 + 4.0 * ic) ** (1 / 2) - 1.0
-#     denominator = ic * (lambda_d * (lambda_d * ic + 1.0) + 2.0)
-#     return numerator / denominator
-
-
-#This is the cost function to obtain the square differences between both functions
-# def cost(x):
-#     lambda_d = x[0]
-#     gds_math = gds_f(ID_val, lambda_d)
-#     weights = np.diff(np.log10(ID_val))
-#     weights = (np.r_[weights[0],weights])**2
-#     sqr = np.sum(((np.log10(gds)-np.log10(gds_math))**2)*weights**-1)
-#     return sqr
-
-# bounds = [(0, 1)] #Bound for VTH
-
-# results = optimize.differential_evolution(cost,bounds) #Optimizer
-
-# lambda_d= results.x[0]
-
-
-
-# gds_opt=gds_f(ID_val,lambda_c)
-
-
-# plt.figure()
-# plt.plot(ID_meas,np.gradient(ID_meas, VG_meas))
-# plt.xscale('log')
-# plt.yscale('log')
-
-# plt.figure()
-# plt.plot(ID_measVD,np.gradient(ID_measVD, VD_meas))
-# plt.xscale('log')
-# plt.yscale('log')
